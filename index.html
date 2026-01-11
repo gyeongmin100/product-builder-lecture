@@ -337,6 +337,28 @@
         </div>
       </section>
 
+      <!-- 3) 제휴 문의 섹션 -->
+      <section id="sectionContact" class="screen active" aria-label="제휴 문의">
+        <div class="hero" style="margin-top: 24px; display: block;">
+          <h2>🤝 제휴 문의</h2>
+          <p style="margin-bottom: 16px;">비즈니스 제휴 및 기타 문의사항을 남겨주세요.</p>
+          
+          <form action="https://formspree.io/f/mvzzpykw" method="POST" style="display: grid; gap: 12px;">
+            <div style="display: grid; gap: 4px;">
+              <label for="email" style="font-size: 13px; font-weight: 600;">이메일 주소</label>
+              <input type="email" name="email" id="email" required placeholder="example@email.com" 
+                style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
+            </div>
+            <div style="display: grid; gap: 4px;">
+              <label for="message" style="font-size: 13px; font-weight: 600;">문의 내용</label>
+              <textarea name="message" id="message" required placeholder="제휴 제안 내용을 입력해주세요." rows="4"
+                style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); resize: vertical;"></textarea>
+            </div>
+            <button type="submit" style="width: 100%; margin-top: 8px;">문의 보내기</button>
+          </form>
+        </div>
+      </section>
+
       <!-- 2) 결과 화면 -->
       <section id="screenResult" class="screen" aria-label="결과 화면">
         <div class="toolbar">
@@ -421,6 +443,10 @@
     function showScreen(which) {
       screenMain.classList.toggle('active', which === 'main');
       screenResult.classList.toggle('active', which === 'result');
+      const sectionContact = document.getElementById('sectionContact');
+      if (sectionContact) {
+        sectionContact.classList.toggle('active', which === 'main');
+      }
     }
 
     function renderAll(games, withBonus) {
