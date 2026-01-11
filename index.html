@@ -383,28 +383,28 @@
     const announce = document.getElementById('announce');
     const btnTheme = document.getElementById('btnTheme');
 
-    // 메뉴 데이터
+    // 메뉴 데이터 (검색 키워드 추가)
     const menus = [
-      { ko: '김치찌개', en: 'Kimchi Stew', type: '한식' },
-      { ko: '된장찌개', en: 'Soybean Paste Stew', type: '한식' },
-      { ko: '비빔밥', en: 'Bibimbap', type: '한식' },
-      { ko: '불고기', en: 'Bulgogi', type: '한식' },
-      { ko: '삼겹살', en: 'Grilled Pork Belly', type: '한식' },
-      { ko: '떡볶이', en: 'Spicy Rice Cake Tteokbokki', type: '분식' },
-      { ko: '김밥', en: 'Gimbap Korean Sushi', type: '분식' },
-      { ko: '라면', en: 'Korean Ramen Noodles', type: '분식' },
-      { ko: '짜장면', en: 'Jajangmyeon Noodles', type: '중식' },
-      { ko: '짬뽕', en: 'Spicy Seafood Noodle Soup Jjamppong', type: '중식' },
-      { ko: '탕수육', en: 'Sweet and Sour Pork', type: '중식' },
-      { ko: '마라탕', en: 'Malatang Hot Pot', type: '중식' },
-      { ko: '초밥', en: 'Sushi Platter', type: '일식' },
-      { ko: '돈까스', en: 'Pork Cutlet Tonkatsu', type: '일식' },
-      { ko: '우동', en: 'Udon Noodle Soup', type: '일식' },
-      { ko: '피자', en: 'Delicious Pizza', type: '양식' },
-      { ko: '파스타', en: 'Cream Pasta', type: '양식' },
-      { ko: '햄버거', en: 'Juicy Hamburger', type: '양식' },
-      { ko: '스테이크', en: 'Beef Steak', type: '양식' },
-      { ko: '치킨', en: 'Crispy Fried Chicken', type: '야식' }
+      { ko: '김치찌개', en: 'Kimchi Stew', type: '한식', keyword: 'kimchi,stew' },
+      { ko: '된장찌개', en: 'Soybean Paste Stew', type: '한식', keyword: 'bean,stew' },
+      { ko: '비빔밥', en: 'Bibimbap', type: '한식', keyword: 'bibimbap' },
+      { ko: '불고기', en: 'Bulgogi', type: '한식', keyword: 'bulgogi,beef' },
+      { ko: '삼겹살', en: 'Grilled Pork Belly', type: '한식', keyword: 'pork,belly,bbq' },
+      { ko: '떡볶이', en: 'Tteokbokki', type: '분식', keyword: 'tteokbokki,spicy' },
+      { ko: '김밥', en: 'Gimbap', type: '분식', keyword: 'gimbap,korean,roll' },
+      { ko: '라면', en: 'Korean Ramen', type: '분식', keyword: 'ramen,noodle' },
+      { ko: '짜장면', en: 'Jajangmyeon', type: '중식', keyword: 'jajangmyeon,noodle' },
+      { ko: '짬뽕', en: 'Jjamppong', type: '중식', keyword: 'jjamppong,spicy,noodle' },
+      { ko: '탕수육', en: 'Sweet and Sour Pork', type: '중식', keyword: 'pork,fried' },
+      { ko: '마라탕', en: 'Malatang', type: '중식', keyword: 'malatang,hotpot' },
+      { ko: '초밥', en: 'Sushi', type: '일식', keyword: 'sushi' },
+      { ko: '돈까스', en: 'Tonkatsu', type: '일식', keyword: 'pork,cutlet' },
+      { ko: '우동', en: 'Udon', type: '일식', keyword: 'udon,noodle' },
+      { ko: '피자', en: 'Pizza', type: '양식', keyword: 'pizza' },
+      { ko: '파스타', en: 'Pasta', type: '양식', keyword: 'pasta' },
+      { ko: '햄버거', en: 'Hamburger', type: '양식', keyword: 'burger' },
+      { ko: '스테이크', en: 'Steak', type: '양식', keyword: 'steak,beef' },
+      { ko: '치킨', en: 'Fried Chicken', type: '야식', keyword: 'fried,chicken' }
     ];
 
     // --- Theme Logic ---
@@ -441,19 +441,16 @@
       const randomIndex = Math.floor(Math.random() * menus.length);
       const menu = menus[randomIndex];
       
-      // 이미지 URL 생성 (AI 생성 프롬프트 활용)
-      // 1. 가로형 이미지 요청 (width=800, height=450 -> 16:9)
-      // 2. 검색어 인코딩 및 구체화
-      const prompt = encodeURIComponent(`delicious ${menu.en}, food photography, photorealistic, 4k`);
-      const seed = Math.floor(Math.random() * 99999);
-      
-      // nologo 제거 (때때로 오류 유발), 크기 명시
-      const imageUrl = `https://image.pollinations.ai/prompt/${prompt}?width=800&height=450&seed=${seed}&nologo=true`;
+      // 이미지 URL 생성 (LoremFlickr 사용)
+      // width: 800, height: 450 (16:9)
+      // random 파라미터를 붙여서 캐싱 방지 (매번 다른 이미지)
+      const randomSeed = Math.floor(Math.random() * 100000);
+      const imageUrl = `https://loremflickr.com/800/450/${menu.keyword}/all?random=${randomSeed}`;
 
       // 렌더링
       resultContent.innerHTML = `
         <div class="food-image-box">
-           <img src="${imageUrl}" alt="${menu.ko}" class="food-image" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450?text=이미지+생성+실패';" />
+           <img src="${imageUrl}" alt="${menu.ko}" class="food-image" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450?text=이미지+없음';" />
         </div>
         <div class="food-info">
           <div class="food-category">${menu.type}</div>
