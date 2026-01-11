@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로또 번호 추천</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+      background: radial-gradient(900px 500px at 20% 10%, #fff7d6, transparent 70%),
+                  radial-gradient(800px 500px at 80% 0%, #e9f9ff, transparent 65%),
+                  linear-gradient(180deg, #ffffff, #fff8e7);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: #0f172a;
+    }
+
+    .app {
+      width: min(860px, 100%);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.14);
+      overflow: hidden;
+    }
+
+    header {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(90deg, #fff1b8, #e7fbff);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.10);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ffe66d 55%, #ffcf33 100%);
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 18px rgba(255, 193, 7, 0.22);
+      flex: 0 0 auto;
+    }
+
+    .logo span {
+      font-weight: 900;
+      font-size: 14px;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sub {
+      margin: 2px 0 0;
+      font-size: 12px;
+      opacity: 0.75;
+    }
+
+    main {
+      padding: 22px 20px 26px;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 220ms ease-out;
+    }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 231, 122, 0.55), rgba(209, 250, 229, 0.35));
+      border: 1px solid rgba(15, 23, 42, 0.10);
+    }
+
+    .hero h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      letter-spacing: -0.3px;
+    }
+    .hero p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.8;
+      line-height: 1.55;
+    }
+
+    .ctaBox {
+      display: grid;
+      gap: 10px;
+      justify-items: end;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 800;
+      font-size: 14px;
+      color: #0f172a;
+      background: linear-gradient(180deg, #ffd84d, #ffbf1f);
+      box-shadow: 0 10px 22px rgba(255, 193, 7, 0.28);
+      transition: transform 0.06s ease, filter 0.2s ease;
+    }
+    button:hover { filter: brightness(1.03); }
+    button:active { transform: translateY(1px); }
+
+    button.secondary {
+      background: transparent;
+      border: 1px solid rgba(15, 23, 42, 0.16);
+      box-shadow: none;
+      font-weight: 700;
+    }
+
+    .grid {
+      margin-top: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .resultCard {
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    }
+
+    .resultHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 193, 7, 0.22);
+      border: 1px solid rgba(255, 193, 7, 0.35);
+    }
+
+    .balls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ball {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7),
+                  0 8px 14px rgba(15, 23, 42, 0.08);
+      user-select: none;
+    }
+
+    /* 로또 느낌: 번호 구간별 색상 */
+    .range-1  { background: radial-gradient(circle at 30% 30%, #fff, #ffe66d 55%, #ffcf33 100%); }
+    .range-2  { background: radial-gradient(circle at 30% 30%, #fff, #bfe7ff 55%, #5bbcff 100%); }
+    .range-3  { background: radial-gradient(circle at 30% 30%, #fff, #ffd0a8 55%, #ff8a3d 100%); }
+    .range-4  { background: radial-gradient(circle at 30% 30%, #fff, #c7ffd8 55%, #34d399 100%); }
+    .range-5  { background: radial-gradient(circle at 30% 30%, #fff, #e6e6e6 55%, #9ca3af 100%); }
+
+    .plus {
+      font-weight: 900;
+      opacity: 0.7;
+      margin: 0 2px;
+    }
+
+    .meta {
+      margin-top: 14px;
+      font-size: 12px;
+      opacity: 0.75;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); border: 0;
+    }
+
+    @media (max-width: 680px) {
+      .hero { grid-template-columns: 1fr; }
+      .ctaBox { justify-items: start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><span>6/45</span></div>
+        <div>
+          <h1>로또 번호 추천</h1>
+          <div class="sub">버튼 한 번으로 5게임 랜덤 추천</div>
+        </div>
+      </div>
+      <span class="sr-only" id="announce" aria-live="polite"></span>
+    </header>
+
+    <main>
+      <!-- 1) 메인 화면: 버튼만 보이게 -->
+      <section id="screenMain" class="screen active" aria-label="메인 화면">
+        <div class="hero">
+          <div>
+            <h2>번호 추천받기</h2>
+            <p>
+              누르면 1~45에서 중복 없이 6개 번호를 뽑아 5게임을 만들어줍니다.<br />
+              (각 게임은 오름차순 정렬, 보너스 번호 포함)
+            </p>
+          </div>
+          <div class="ctaBox">
+            <button id="btnGo" type="button">번호 추천받기</button>
+            <button id="btnGoNoBonus" class="secondary" type="button">보너스 없이 5게임</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2) 결과 화면: 5개 결과 보여주기 -->
+      <section id="screenResult" class="screen" aria-label="결과 화면">
+        <div class="toolbar">
+          <button id="btnAgain" type="button">다시 추천받기</button>
+          <button id="btnCopyAll" class="secondary" type="button">5게임 전체 복사</button>
+          <button id="btnBack" class="secondary" type="button">메인으로</button>
+        </div>
+
+        <div id="results" class="grid" aria-label="추천 결과 목록"></div>
+        <div id="meta" class="meta"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const screenMain = document.getElementById('screenMain');
+    const screenResult = document.getElementById('screenResult');
+
+    const btnGo = document.getElementById('btnGo');
+    const btnGoNoBonus = document.getElementById('btnGoNoBonus');
+
+    const btnAgain = document.getElementById('btnAgain');
+    const btnCopyAll = document.getElementById('btnCopyAll');
+    const btnBack = document.getElementById('btnBack');
+
+    const resultsEl = document.getElementById('results');
+    const metaEl = document.getElementById('meta');
+    const announce = document.getElementById('announce');
+
+    let latest = { games: [], withBonus: true };
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickOneGame(withBonus) {
+      const set = new Set();
+      while (set.size < 6) set.add(randomInt(1, 45));
+      const numbers = Array.from(set).sort((a, b) => a - b);
+
+      if (!withBonus) return { numbers };
+
+      let bonus;
+      do { bonus = randomInt(1, 45); } while (set.has(bonus));
+      return { numbers, bonus };
+    }
+
+    function pickFiveGames(withBonus) {
+      return Array.from({ length: 5 }, () => pickOneGame(withBonus));
+    }
+
+    function rangeClass(n) {
+      if (n <= 10) return 'range-1';
+      if (n <= 20) return 'range-2';
+      if (n <= 30) return 'range-3';
+      if (n <= 40) return 'range-4';
+      return 'range-5';
+    }
+
+    function showScreen(which) {
+      screenMain.classList.toggle('active', which === 'main');
+      screenResult.classList.toggle('active', which === 'result');
+    }
+
+    function renderAll(games, withBonus) {
+      resultsEl.innerHTML = '';
+
+      games.forEach((g, i) => {
+        const card = document.createElement('div');
+        card.className = 'resultCard';
+
+        const head = document.createElement('div');
+        head.className = 'resultHead';
+
+        const badge = document.createElement('div');
+        badge.className = 'badge';
+        badge.textContent = `게임 ${i + 1}`;
+
+        const small = document.createElement('div');
+        small.style.fontSize = '12px';
+        small.style.opacity = '0.7';
+        small.textContent = withBonus ? '보너스 포함' : '보너스 없음';
+
+        head.appendChild(badge);
+        head.appendChild(small);
+
+        const balls = document.createElement('div');
+        balls.className = 'balls';
+
+        g.numbers.forEach(n => {
+          const b = document.createElement('div');
+          b.className = `ball ${rangeClass(n)}`;
+          b.textContent = n;
+          b.title = String(n);
+          balls.appendChild(b);
+        });
+
+        if (withBonus) {
+          const plus = document.createElement('div');
+          plus.className = 'plus';
+          plus.textContent = '+';
+          balls.appendChild(plus);
+
+          const bb = document.createElement('div');
+          bb.className = `ball ${rangeClass(g.bonus)}`;
+          bb.textContent = g.bonus;
+          bb.title = `보너스 ${g.bonus}`;
+          balls.appendChild(bb);
+        }
+
+        card.appendChild(head);
+        card.appendChild(balls);
+        resultsEl.appendChild(card);
+      });
+
+      const now = new Date();
+      metaEl.textContent = `생성 시각: ${now.toLocaleString('ko-KR')}`;
+      announce.textContent = '추천 번호가 생성되었습니다!';
+    }
+
+    function toCopyText(games, withBonus) {
+      return games.map((g, i) => {
+        const base = `게임 ${i + 1}: ${g.numbers.join(', ')}`;
+        return withBonus ? `${base} + 보너스 ${g.bonus}` : base;
+      }).join('\n');
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        announce.textContent = '클립보드에 복사했습니다.';
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        announce.textContent = '복사했습니다.';
+      }
+    }
+
+    function generateAndShow(withBonus) {
+      const games = pickFiveGames(withBonus);
+      latest = { games, withBonus };
+      renderAll(games, withBonus);
+      showScreen('result');
+    }
+
+    // 메인 -> 결과
+    btnGo.addEventListener('click', () => generateAndShow(true));
+    btnGoNoBonus.addEventListener('click', () => generateAndShow(false));
+
+    // 결과 화면 버튼들
+    btnAgain.addEventListener('click', () => generateAndShow(latest.withBonus));
+    btnBack.addEventListener('click', () => showScreen('main'));
+    btnCopyAll.addEventListener('click', () => {
+      const text = toCopyText(latest.games, latest.withBonus);
+      if (!text) { announce.textContent = '복사할 결과가 없습니다.'; return; }
+      copyText(text);
+    });
+
+    // 초기 화면: "버튼만" 보이도록 자동 생성 제거 (요청사항)
+    showScreen('main');
+  </script>
+</body>
+</html>
