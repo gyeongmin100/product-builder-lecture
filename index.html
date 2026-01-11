@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>로또 번호 추천</title>
+  <title>오늘 뭐 먹지?</title>
   <style>
     :root {
       color-scheme: light;
@@ -26,9 +26,6 @@
       --btn-shadow: rgba(255, 193, 7, 0.28);
       --badge-bg: rgba(255, 193, 7, 0.22);
       --badge-border: rgba(255, 193, 7, 0.35);
-      --ball-border: rgba(15, 23, 42, 0.10);
-      --ball-shadow: rgba(15, 23, 42, 0.08);
-      --ball-inset: rgba(255,255,255,0.7);
     }
 
     [data-theme="dark"] {
@@ -52,9 +49,6 @@
       --btn-shadow: rgba(255, 193, 7, 0.15);
       --badge-bg: rgba(255, 193, 7, 0.15);
       --badge-border: rgba(255, 193, 7, 0.25);
-      --ball-border: rgba(255, 255, 255, 0.15);
-      --ball-shadow: rgba(0, 0, 0, 0.3);
-      --ball-inset: rgba(255,255,255,0.2);
     }
 
     * { box-sizing: border-box; }
@@ -113,7 +107,7 @@
 
     .logo span {
       font-weight: 900;
-      font-size: 14px;
+      font-size: 20px;
       color: var(--logo-text);
       letter-spacing: -0.5px;
     }
@@ -213,83 +207,48 @@
       color: var(--text-color);
     }
 
-    .grid {
-      margin-top: 16px;
-      display: grid;
-      gap: 12px;
-    }
-
     .resultCard {
-      padding: 14px 14px 12px;
+      padding: 20px;
       border-radius: 16px;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       box-shadow: 0 10px 26px var(--card-shadow);
+      text-align: center;
     }
 
-    .resultHead {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
+    .food-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
     }
 
-    .badge {
-      font-size: 12px;
-      font-weight: 800;
-      padding: 6px 10px;
+    .food-name {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .food-category {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
       border-radius: 999px;
       background: var(--badge-bg);
       border: 1px solid var(--badge-border);
-    }
-
-    .balls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .ball {
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      color: #0f172a; /* 번호는 항상 잘 보이게 어두운 색 */
-      border: 1px solid var(--ball-border);
-      box-shadow: inset 0 1px 0 var(--ball-inset),
-                  0 8px 14px var(--ball-shadow);
-      user-select: none;
-    }
-
-    /* 로또 느낌: 번호 구간별 색상 */
-    .range-1  { background: radial-gradient(circle at 30% 30%, #fff, #ffe66d 55%, #ffcf33 100%); }
-    .range-2  { background: radial-gradient(circle at 30% 30%, #fff, #bfe7ff 55%, #5bbcff 100%); }
-    .range-3  { background: radial-gradient(circle at 30% 30%, #fff, #ffd0a8 55%, #ff8a3d 100%); }
-    .range-4  { background: radial-gradient(circle at 30% 30%, #fff, #c7ffd8 55%, #34d399 100%); }
-    .range-5  { background: radial-gradient(circle at 30% 30%, #fff, #e6e6e6 55%, #9ca3af 100%); }
-
-    .plus {
-      font-weight: 900;
-      opacity: 0.7;
-      margin: 0 2px;
       color: var(--text-color);
-    }
-
-    .meta {
-      margin-top: 14px;
-      font-size: 12px;
-      color: var(--text-sub);
     }
 
     .toolbar {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 14px;
+      margin-top: 20px;
+      justify-content: center;
     }
 
     .sr-only {
@@ -307,10 +266,10 @@
   <div class="app">
     <header>
       <div class="brand">
-        <div class="logo" aria-hidden="true"><span>6/45</span></div>
+        <div class="logo" aria-hidden="true"><span>🍽️</span></div>
         <div>
-          <h1>로또 번호 추천</h1>
-          <div class="sub">버튼 한 번으로 5게임 랜덤 추천</div>
+          <h1>오늘 뭐 먹지?</h1>
+          <div class="sub">결정 장애를 위한 AI 메뉴 추천</div>
         </div>
       </div>
       <button id="btnTheme" class="theme-toggle" type="button" aria-label="테마 변경">
@@ -324,15 +283,14 @@
       <section id="screenMain" class="screen active" aria-label="메인 화면">
         <div class="hero">
           <div>
-            <h2>번호 추천받기</h2>
+            <h2>메뉴 추천받기</h2>
             <p>
-              누르면 1~45에서 중복 없이 6개 번호를 뽑아 5게임을 만들어줍니다.<br />
-              (각 게임은 오름차순 정렬, 보너스 번호 포함)
+              한식, 중식, 일식, 양식 중 랜덤으로 하나의 메뉴를 추천해드립니다.<br />
+              AI가 생성한 맛있는 음식 사진도 함께 보여드려요!
             </p>
           </div>
           <div class="ctaBox">
-            <button id="btnGo" type="button">번호 추천받기</button>
-            <button id="btnGoNoBonus" class="secondary" type="button">보너스 없이 5게임</button>
+            <button id="btnGo" type="button">아무거나 추천해줘!</button>
           </div>
         </div>
       </section>
@@ -361,14 +319,14 @@
 
       <!-- 2) 결과 화면 -->
       <section id="screenResult" class="screen" aria-label="결과 화면">
-        <div class="toolbar">
-          <button id="btnAgain" type="button">다시 추천받기</button>
-          <button id="btnCopyAll" class="secondary" type="button">5게임 전체 복사</button>
-          <button id="btnBack" class="secondary" type="button">메인으로</button>
+        <div id="resultContent" class="resultCard">
+            <!-- 결과가 여기에 표시됩니다 -->
         </div>
 
-        <div id="results" class="grid" aria-label="추천 결과 목록"></div>
-        <div id="meta" class="meta"></div>
+        <div class="toolbar">
+          <button id="btnAgain" type="button">다른 거 먹을래</button>
+          <button id="btnBack" class="secondary" type="button">메인으로</button>
+        </div>
       </section>
     </main>
   </div>
@@ -376,20 +334,39 @@
   <script>
     const screenMain = document.getElementById('screenMain');
     const screenResult = document.getElementById('screenResult');
+    const sectionContact = document.getElementById('sectionContact');
 
     const btnGo = document.getElementById('btnGo');
-    const btnGoNoBonus = document.getElementById('btnGoNoBonus');
-
     const btnAgain = document.getElementById('btnAgain');
-    const btnCopyAll = document.getElementById('btnCopyAll');
     const btnBack = document.getElementById('btnBack');
 
-    const resultsEl = document.getElementById('results');
-    const metaEl = document.getElementById('meta');
+    const resultContent = document.getElementById('resultContent');
     const announce = document.getElementById('announce');
     const btnTheme = document.getElementById('btnTheme');
 
-    let latest = { games: [], withBonus: true };
+    // 메뉴 데이터
+    const menus = [
+      { ko: '김치찌개', en: 'Kimchi Stew', type: '한식' },
+      { ko: '된장찌개', en: 'Soybean Paste Stew', type: '한식' },
+      { ko: '비빔밥', en: 'Bibimbap', type: '한식' },
+      { ko: '불고기', en: 'Bulgogi', type: '한식' },
+      { ko: '삼겹살', en: 'Grilled Pork Belly', type: '한식' },
+      { ko: '떡볶이', en: 'Tteokbokki', type: '분식' },
+      { ko: '김밥', en: 'Gimbap', type: '분식' },
+      { ko: '라면', en: 'Korean Ramen', type: '분식' },
+      { ko: '짜장면', en: 'Jajangmyeon', type: '중식' },
+      { ko: '짬뽕', en: 'Jjamppong', type: '중식' },
+      { ko: '탕수육', en: 'Sweet and Sour Pork', type: '중식' },
+      { ko: '마라탕', en: 'Malatang', type: '중식' },
+      { ko: '초밥', en: 'Sushi', type: '일식' },
+      { ko: '돈까스', en: 'Tonkatsu', type: '일식' },
+      { ko: '우동', en: 'Udon', type: '일식' },
+      { ko: '피자', en: 'Pizza', type: '양식' },
+      { ko: '파스타', en: 'Pasta', type: '양식' },
+      { ko: '햄버거', en: 'Hamburger', type: '양식' },
+      { ko: '스테이크', en: 'Steak', type: '양식' },
+      { ko: '치킨', en: 'Fried Chicken', type: '야식' }
+    ];
 
     // --- Theme Logic ---
     function initTheme() {
@@ -412,142 +389,42 @@
     initTheme();
     // -------------------
 
-    function randomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function pickOneGame(withBonus) {
-      const set = new Set();
-      while (set.size < 6) set.add(randomInt(1, 45));
-      const numbers = Array.from(set).sort((a, b) => a - b);
-
-      if (!withBonus) return { numbers };
-
-      let bonus;
-      do { bonus = randomInt(1, 45); } while (set.has(bonus));
-      return { numbers, bonus };
-    }
-
-    function pickFiveGames(withBonus) {
-      return Array.from({ length: 5 }, () => pickOneGame(withBonus));
-    }
-
-    function rangeClass(n) {
-      if (n <= 10) return 'range-1';
-      if (n <= 20) return 'range-2';
-      if (n <= 30) return 'range-3';
-      if (n <= 40) return 'range-4';
-      return 'range-5';
-    }
-
     function showScreen(which) {
       screenMain.classList.toggle('active', which === 'main');
       screenResult.classList.toggle('active', which === 'result');
-      const sectionContact = document.getElementById('sectionContact');
       if (sectionContact) {
         sectionContact.classList.toggle('active', which === 'main');
       }
     }
 
-    function renderAll(games, withBonus) {
-      resultsEl.innerHTML = '';
+    function generateMenu() {
+      // 랜덤 메뉴 선택
+      const randomIndex = Math.floor(Math.random() * menus.length);
+      const menu = menus[randomIndex];
+      
+      // 이미지 URL 생성 (AI 생성 프롬프트 활용)
+      // seed를 추가하여 캐싱 방지 및 매번 다른 느낌
+      const seed = Math.floor(Math.random() * 10000);
+      const imageUrl = `https://image.pollinations.ai/prompt/delicious ${menu.en} food photography, 4k, high quality?width=600&height=600&nologo=true&seed=${seed}`;
 
-      games.forEach((g, i) => {
-        const card = document.createElement('div');
-        card.className = 'resultCard';
+      // 렌더링
+      resultContent.innerHTML = `
+        <div class="food-category">${menu.type}</div>
+        <div class="food-name">${menu.ko}</div>
+        <img src="${imageUrl}" alt="${menu.ko}" class="food-image" loading="lazy" />
+        <p style="margin: 0; opacity: 0.8; font-size: 14px;">"${menu.en}"</p>
+      `;
 
-        const head = document.createElement('div');
-        head.className = 'resultHead';
-
-        const badge = document.createElement('div');
-        badge.className = 'badge';
-        badge.textContent = `게임 ${i + 1}`;
-
-        const small = document.createElement('div');
-        small.style.fontSize = '12px';
-        small.style.opacity = '0.7';
-        small.textContent = withBonus ? '보너스 포함' : '보너스 없음';
-
-        head.appendChild(badge);
-        head.appendChild(small);
-
-        const balls = document.createElement('div');
-        balls.className = 'balls';
-
-        g.numbers.forEach(n => {
-          const b = document.createElement('div');
-          b.className = `ball ${rangeClass(n)}`;
-          b.textContent = n;
-          b.title = String(n);
-          balls.appendChild(b);
-        });
-
-        if (withBonus) {
-          const plus = document.createElement('div');
-          plus.className = 'plus';
-          plus.textContent = '+';
-          balls.appendChild(plus);
-
-          const bb = document.createElement('div');
-          bb.className = `ball ${rangeClass(g.bonus)}`;
-          bb.textContent = g.bonus;
-          bb.title = `보너스 ${g.bonus}`;
-          balls.appendChild(bb);
-        }
-
-        card.appendChild(head);
-        card.appendChild(balls);
-        resultsEl.appendChild(card);
-      });
-
-      const now = new Date();
-      metaEl.textContent = `생성 시각: ${now.toLocaleString('ko-KR')}`;
-      announce.textContent = '추천 번호가 생성되었습니다!';
-    }
-
-    function toCopyText(games, withBonus) {
-      return games.map((g, i) => {
-        const base = `게임 ${i + 1}: ${g.numbers.join(', ')}`;
-        return withBonus ? `${base} + 보너스 ${g.bonus}` : base;
-      }).join('\n');
-    }
-
-    async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        announce.textContent = '클립보드에 복사했습니다.';
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        announce.textContent = '복사했습니다.';
-      }
-    }
-
-    function generateAndShow(withBonus) {
-      const games = pickFiveGames(withBonus);
-      latest = { games, withBonus };
-      renderAll(games, withBonus);
+      announce.textContent = `${menu.ko} 메뉴가 추천되었습니다.`;
       showScreen('result');
     }
 
-    // 메인 -> 결과
-    btnGo.addEventListener('click', () => generateAndShow(true));
-    btnGoNoBonus.addEventListener('click', () => generateAndShow(false));
-
-    // 결과 화면 버튼들
-    btnAgain.addEventListener('click', () => generateAndShow(latest.withBonus));
+    // 이벤트 리스너
+    btnGo.addEventListener('click', generateMenu);
+    btnAgain.addEventListener('click', generateMenu);
     btnBack.addEventListener('click', () => showScreen('main'));
-    btnCopyAll.addEventListener('click', () => {
-      const text = toCopyText(latest.games, latest.withBonus);
-      if (!text) { announce.textContent = '복사할 결과가 없습니다.'; return; }
-      copyText(text);
-    });
 
-    // 초기 화면: "버튼만" 보이도록 자동 생성 제거 (요청사항)
+    // 초기 화면
     showScreen('main');
   </script>
 </body>
