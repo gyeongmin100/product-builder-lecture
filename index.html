@@ -207,37 +207,80 @@
       color: var(--text-color);
     }
 
+    .contact-card {
+      padding: 14px 18px;
+    }
+    .contact-card h2 {
+      font-size: 16px;
+      margin: 0 0 4px;
+    }
+    .contact-card p {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .contact-form {
+      display: grid;
+      gap: 8px;
+    }
+    .contact-row {
+      display: flex;
+      gap: 8px;
+    }
+    .contact-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-color);
+      font-size: 13px;
+    }
+    .contact-btn {
+      padding: 8px 16px;
+      font-size: 13px;
+      margin-top: 0;
+    }
+
     .resultCard {
-      padding: 20px;
+      padding: 0;
       border-radius: 16px;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       box-shadow: 0 10px 26px var(--card-shadow);
       text-align: center;
+      overflow: hidden;
     }
 
+    .food-image-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
     .food-image {
       width: 100%;
-      height: 250px;
+      height: 100%;
       object-fit: cover;
-      border-radius: 12px;
-      background: rgba(0,0,0,0.05);
-      margin-bottom: 16px;
-      border: 1px solid var(--border-color);
+      display: block;
+    }
+
+    .food-info {
+      padding: 20px;
     }
 
     .food-name {
       font-size: 24px;
       font-weight: 900;
-      margin-bottom: 8px;
+      margin: 8px 0;
     }
 
     .food-category {
       display: inline-block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
+      padding: 4px 8px;
+      border-radius: 6px;
       background: var(--badge-bg);
       border: 1px solid var(--badge-border);
       color: var(--text-color);
@@ -259,6 +302,7 @@
     @media (max-width: 680px) {
       .hero { grid-template-columns: 1fr; }
       .ctaBox { justify-items: start; }
+      .contact-row { flex-direction: column; }
     }
   </style>
 </head>
@@ -295,24 +339,19 @@
         </div>
       </section>
 
-      <!-- 3) 제휴 문의 섹션 -->
+      <!-- 3) 제휴 문의 섹션 (Compact) -->
       <section id="sectionContact" class="screen active" aria-label="제휴 문의">
-        <div class="hero" style="margin-top: 24px; display: block;">
+        <div class="hero contact-card" style="margin-top: 16px; display: block;">
           <h2>🤝 제휴 문의</h2>
-          <p style="margin-bottom: 16px;">비즈니스 제휴 및 기타 문의사항을 남겨주세요.</p>
+          <p>비즈니스 제휴 및 기타 문의사항을 남겨주세요.</p>
           
-          <form action="https://formspree.io/f/mvzzpykw" method="POST" style="display: grid; gap: 12px;">
-            <div style="display: grid; gap: 4px;">
-              <label for="email" style="font-size: 13px; font-weight: 600;">이메일 주소</label>
-              <input type="email" name="email" id="email" required placeholder="example@email.com" 
-                style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color);">
+          <form action="https://formspree.io/f/mvzzpykw" method="POST" class="contact-form">
+            <div class="contact-row">
+              <input type="email" name="email" required placeholder="이메일 주소" class="contact-input" style="flex: 1;">
+              <input type="text" name="subject" required placeholder="제목을 입력하세요" class="contact-input" style="flex: 1.5;">
             </div>
-            <div style="display: grid; gap: 4px;">
-              <label for="message" style="font-size: 13px; font-weight: 600;">문의 내용</label>
-              <textarea name="message" id="message" required placeholder="제휴 제안 내용을 입력해주세요." rows="4"
-                style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); resize: vertical;"></textarea>
-            </div>
-            <button type="submit" style="width: 100%; margin-top: 8px;">문의 보내기</button>
+            <textarea name="message" required placeholder="내용을 입력해주세요." rows="2" class="contact-input" style="resize: none;"></textarea>
+            <button type="submit" class="contact-btn" style="width: 100%;">문의 보내기</button>
           </form>
         </div>
       </section>
@@ -351,21 +390,21 @@
       { ko: '비빔밥', en: 'Bibimbap', type: '한식' },
       { ko: '불고기', en: 'Bulgogi', type: '한식' },
       { ko: '삼겹살', en: 'Grilled Pork Belly', type: '한식' },
-      { ko: '떡볶이', en: 'Tteokbokki', type: '분식' },
-      { ko: '김밥', en: 'Gimbap', type: '분식' },
-      { ko: '라면', en: 'Korean Ramen', type: '분식' },
-      { ko: '짜장면', en: 'Jajangmyeon', type: '중식' },
-      { ko: '짬뽕', en: 'Jjamppong', type: '중식' },
+      { ko: '떡볶이', en: 'Spicy Rice Cake Tteokbokki', type: '분식' },
+      { ko: '김밥', en: 'Gimbap Korean Sushi', type: '분식' },
+      { ko: '라면', en: 'Korean Ramen Noodles', type: '분식' },
+      { ko: '짜장면', en: 'Jajangmyeon Noodles', type: '중식' },
+      { ko: '짬뽕', en: 'Spicy Seafood Noodle Soup Jjamppong', type: '중식' },
       { ko: '탕수육', en: 'Sweet and Sour Pork', type: '중식' },
-      { ko: '마라탕', en: 'Malatang', type: '중식' },
-      { ko: '초밥', en: 'Sushi', type: '일식' },
-      { ko: '돈까스', en: 'Tonkatsu', type: '일식' },
-      { ko: '우동', en: 'Udon', type: '일식' },
-      { ko: '피자', en: 'Pizza', type: '양식' },
-      { ko: '파스타', en: 'Pasta', type: '양식' },
-      { ko: '햄버거', en: 'Hamburger', type: '양식' },
-      { ko: '스테이크', en: 'Steak', type: '양식' },
-      { ko: '치킨', en: 'Fried Chicken', type: '야식' }
+      { ko: '마라탕', en: 'Malatang Hot Pot', type: '중식' },
+      { ko: '초밥', en: 'Sushi Platter', type: '일식' },
+      { ko: '돈까스', en: 'Pork Cutlet Tonkatsu', type: '일식' },
+      { ko: '우동', en: 'Udon Noodle Soup', type: '일식' },
+      { ko: '피자', en: 'Delicious Pizza', type: '양식' },
+      { ko: '파스타', en: 'Cream Pasta', type: '양식' },
+      { ko: '햄버거', en: 'Juicy Hamburger', type: '양식' },
+      { ko: '스테이크', en: 'Beef Steak', type: '양식' },
+      { ko: '치킨', en: 'Crispy Fried Chicken', type: '야식' }
     ];
 
     // --- Theme Logic ---
@@ -403,16 +442,24 @@
       const menu = menus[randomIndex];
       
       // 이미지 URL 생성 (AI 생성 프롬프트 활용)
-      // seed를 추가하여 캐싱 방지 및 매번 다른 느낌
-      const seed = Math.floor(Math.random() * 10000);
-      const imageUrl = `https://image.pollinations.ai/prompt/delicious ${menu.en} food photography, 4k, high quality?width=600&height=600&nologo=true&seed=${seed}`;
+      // 1. 가로형 이미지 요청 (width=800, height=450 -> 16:9)
+      // 2. 검색어 인코딩 및 구체화
+      const prompt = encodeURIComponent(`delicious ${menu.en}, food photography, photorealistic, 4k`);
+      const seed = Math.floor(Math.random() * 99999);
+      
+      // nologo 제거 (때때로 오류 유발), 크기 명시
+      const imageUrl = `https://image.pollinations.ai/prompt/${prompt}?width=800&height=450&seed=${seed}&nologo=true`;
 
       // 렌더링
       resultContent.innerHTML = `
-        <div class="food-category">${menu.type}</div>
-        <div class="food-name">${menu.ko}</div>
-        <img src="${imageUrl}" alt="${menu.ko}" class="food-image" loading="lazy" />
-        <p style="margin: 0; opacity: 0.8; font-size: 14px;">"${menu.en}"</p>
+        <div class="food-image-box">
+           <img src="${imageUrl}" alt="${menu.ko}" class="food-image" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450?text=이미지+생성+실패';" />
+        </div>
+        <div class="food-info">
+          <div class="food-category">${menu.type}</div>
+          <div class="food-name">${menu.ko}</div>
+          <p style="margin: 0; opacity: 0.8; font-size: 14px;">"${menu.en}"</p>
+        </div>
       `;
 
       announce.textContent = `${menu.ko} 메뉴가 추천되었습니다.`;
