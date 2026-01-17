@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gyeongmin100.github.io/product-builder-lecture/sitemap.xml
+Sitemap: https://product-builder-lecture-1eu.pages.dev/sitemap.xml
