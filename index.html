@@ -617,10 +617,28 @@
 
     // ★ 핵심: 위키백과 API에서 이미지 가져오기
     async function getWikiImage(keyword) {
-      // 한국어 위키백과 API 호출
+      // 1. 하드코딩된 예외 처리 (API가 잘 못 찾는 메뉴들을 위한 수동 매핑)
+      // 족발, 곱창 등 이미지가 잘 안 나오는 메뉴는 여기서 직접 URL을 지정합니다.
+      const overrides = {
+        '족발': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Jokbal_4.jpg/800px-Jokbal_4.jpg',
+        '곱창': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Gopchang-gui.jpg/800px-Gopchang-gui.jpg',
+        '곱창 구이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Gopchang-gui.jpg/800px-Gopchang-gui.jpg',
+        '순대 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/800px-Sundae_%28sausage%29.jpg',
+        '튀김 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twigim.jpg/800px-Twigim.jpg',
+        '치킨': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Fried_chicken_%281%29.jpg/800px-Fried_chicken_%281%29.jpg',
+        '양념치킨': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Fried_chicken_%281%29.jpg/800px-Fried_chicken_%281%29.jpg', // 양념치킨 사진이 없으면 후라이드라도 나오게
+        '닭발 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Dakbal.jpg/800px-Dakbal.jpg'
+      };
+
+      if (overrides[keyword]) {
+        console.log(`Using override image for: ${keyword}`);
+        return overrides[keyword];
+      }
+
+      // 2. 한국어 위키백과 API 호출 (기존 로직)
       // origin=* : CORS 해결
       // pithumbsize=600 : 600px 썸네일 요청
-      // redirects=1 : 리다이렉트 자동 추적 (중요!)
+      // redirects=1 : 리다이렉트 자동 추적
       const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(keyword)}&pithumbsize=600&origin=*&redirects=1`;
       
       try {
