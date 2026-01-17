@@ -616,7 +616,8 @@
       // 한국어 위키백과 API 호출
       // origin=* : CORS 해결
       // pithumbsize=600 : 600px 썸네일 요청
-      const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(keyword)}&pithumbsize=600&origin=*`;
+      // redirects=1 : 리다이렉트 자동 추적 (중요!)
+      const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(keyword)}&pithumbsize=600&origin=*&redirects=1`;
       
       try {
         const response = await fetch(url);
