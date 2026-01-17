@@ -618,92 +618,82 @@
       if (sectionContact) sectionContact.classList.toggle('active', which === 'main');
     }
 
-    // ★ 핵심: 이미지 매핑 (구글/위키/Unsplash 검증된 URL 100% 하드코딩)
-    // API 오류나 부정확한 검색을 방지하기 위해 모든 메뉴에 대해 고정 URL을 사용합니다.
+    // ★ 핵심: 이미지 매핑 (구글/위키/Unsplash 검증된 URL 100% 하드코딩 + 경량화)
     async function getWikiImage(keyword) {
       const overrides = {
         // 🍚 한식
-        '김치찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Kimchi_jjigae_1.jpg/800px-Kimchi_jjigae_1.jpg',
-        '된장찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Doenjang_jjigae.jpg/800px-Doenjang_jjigae.jpg',
-        '비빔밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dolsot-bibimbap.jpg/800px-Dolsot-bibimbap.jpg',
-        '불고기': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Bulgogi_2.jpg/800px-Bulgogi_2.jpg',
-        '삼겹살': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Samgyeopsal-gui.jpg/800px-Samgyeopsal-gui.jpg',
-        '갈비탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Galbi-tang-01.jpg/800px-Galbi-tang-01.jpg',
-        '냉면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mulnaengmyeon.jpg/800px-Mulnaengmyeon.jpg',
-        '삼계탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Samgyetang_1.jpg/800px-Samgyetang_1.jpg',
-        '보쌈': 'https://cdn.pixabay.com/photo/2020/11/13/16/04/bossam-5739097_1280.jpg',
-        '닭갈비': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Dakgalbi.jpg/800px-Dakgalbi.jpg',
-        '잡채': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Japchae_3.jpg/800px-Japchae_3.jpg',
-        '파전': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Haemul-pajeon.jpg/800px-Haemul-pajeon.jpg',
-        '육회': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Yukhoe.jpg/800px-Yukhoe.jpg',
-        '제육볶음': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Jeyuk-bokkeum.jpg/800px-Jeyuk-bokkeum.jpg',
-        '설렁탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Seolleongtang.jpg/800px-Seolleongtang.jpg',
-        '부대찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budae-jjigae_3.jpg/800px-Budae-jjigae_3.jpg',
-        '순두부찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sundubu-jjigae.jpg/800px-Sundubu-jjigae.jpg',
-        '감자탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Gamjatang.jpg/800px-Gamjatang.jpg',
+        '김치찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Kimchi_jjigae_1.jpg/640px-Kimchi_jjigae_1.jpg',
+        '된장찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Doenjang_jjigae.jpg/640px-Doenjang_jjigae.jpg',
+        '비빔밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dolsot-bibimbap.jpg/640px-Dolsot-bibimbap.jpg',
+        '불고기': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Bulgogi_2.jpg/640px-Bulgogi_2.jpg',
+        '삼겹살': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Samgyeopsal-gui.jpg/640px-Samgyeopsal-gui.jpg',
+        '갈비탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Galbi-tang-01.jpg/640px-Galbi-tang-01.jpg',
+        '냉면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mulnaengmyeon.jpg/640px-Mulnaengmyeon.jpg',
+        '삼계탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Samgyetang_1.jpg/640px-Samgyetang_1.jpg',
+        '보쌈': 'https://cdn.pixabay.com/photo/2020/11/13/16/04/bossam-5739097_640.jpg', // 1280 -> 640
+        '닭갈비': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Dakgalbi.jpg/640px-Dakgalbi.jpg',
+        '잡채': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Japchae_3.jpg/640px-Japchae_3.jpg',
+        '파전': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Haemul-pajeon.jpg/640px-Haemul-pajeon.jpg',
+        '육회': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Yukhoe.jpg/640px-Yukhoe.jpg',
+        '제육볶음': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Jeyuk-bokkeum.jpg/640px-Jeyuk-bokkeum.jpg',
+        '설렁탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Seolleongtang.jpg/640px-Seolleongtang.jpg',
+        '부대찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budae-jjigae_3.jpg/640px-Budae-jjigae_3.jpg',
+        '순두부찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sundubu-jjigae.jpg/640px-Sundubu-jjigae.jpg',
+        '감자탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Gamjatang.jpg/640px-Gamjatang.jpg',
 
         // 🍢 분식
-        '떡볶이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Tteokbokki.JPG/800px-Tteokbokki.JPG',
-        '김밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Gimbap.jpg/800px-Gimbap.jpg',
-        '라면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ramyeon.jpg/800px-Ramyeon.jpg',
-        '순대 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/800px-Sundae_%28sausage%29.jpg',
-        '튀김 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twigim.jpg/800px-Twigim.jpg',
-        '어묵': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Oden_1.jpg/800px-Oden_1.jpg',
-        '만두': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Gun-mandu.jpg/800px-Gun-mandu.jpg',
-        '라볶이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Rabokki.jpg/800px-Rabokki.jpg',
+        '떡볶이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Tteokbokki.JPG/640px-Tteokbokki.JPG',
+        '김밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Gimbap.jpg/640px-Gimbap.jpg',
+        '라면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ramyeon.jpg/640px-Ramyeon.jpg',
+        '순대 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/640px-Sundae_%28sausage%29.jpg',
+        '튀김 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twigim.jpg/640px-Twigim.jpg',
+        '어묵': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Oden_1.jpg/640px-Oden_1.jpg',
+        '만두': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Gun-mandu.jpg/640px-Gun-mandu.jpg',
+        '라볶이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Rabokki.jpg/640px-Rabokki.jpg',
 
         // 🍜 중식
-        '짜장면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Jajangmyeon_2.jpg/800px-Jajangmyeon_2.jpg',
-        '짬뽕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Jjamppong.jpg/800px-Jjamppong.jpg',
-        '탕수육': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Tangsuyuk.jpg/800px-Tangsuyuk.jpg',
-        '마라탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Malatang.jpg/800px-Malatang.jpg',
-        '마파두부': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Mapo_doufu_1.jpg/800px-Mapo_doufu_1.jpg',
-        '양장피': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Yangjangpi.jpg/800px-Yangjangpi.jpg',
-        '볶음밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Bokkeumbap_2.jpg/800px-Bokkeumbap_2.jpg',
-        '깐풍기': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kkanpunggi_1.jpg/800px-Kkanpunggi_1.jpg',
-        '유산슬': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Yusanseul.jpg/800px-Yusanseul.jpg',
+        '짜장면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Jajangmyeon_2.jpg/640px-Jajangmyeon_2.jpg',
+        '짬뽕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Jjamppong.jpg/640px-Jjamppong.jpg',
+        '탕수육': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Tangsuyuk.jpg/640px-Tangsuyuk.jpg',
+        '마라탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Malatang.jpg/640px-Malatang.jpg',
+        '마파두부': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Mapo_doufu_1.jpg/640px-Mapo_doufu_1.jpg',
+        '양장피': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Yangjangpi.jpg/640px-Yangjangpi.jpg',
+        '볶음밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Bokkeumbap_2.jpg/640px-Bokkeumbap_2.jpg',
+        '깐풍기': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kkanpunggi_1.jpg/640px-Kkanpunggi_1.jpg',
+        '유산슬': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Yusanseul.jpg/640px-Yusanseul.jpg',
 
         // 🍣 일식
-        '초밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Sushi_platter.jpg/800px-Sushi_platter.jpg',
-        '돈까스': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tonkatsu.jpg/800px-Tonkatsu.jpg',
-        '우동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Kake_udon.jpg/800px-Kake_udon.jpg',
-        '일본 라멘': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Shoyu_Ramen.jpg/800px-Shoyu_Ramen.jpg',
-        '메밀국수': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Zaru_soba.jpg/800px-Zaru_soba.jpg',
-        '회 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Sashimi.jpg/800px-Sashimi.jpg',
-        '타코야끼': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Takoyaki.jpg/800px-Takoyaki.jpg',
-        '규동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gyudon_by_kewing.jpg/800px-Gyudon_by_kewing.jpg',
-        '덴푸라': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tempura_1.jpg/800px-Tempura_1.jpg',
-        '가츠동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Katsudon_1.jpg/800px-Katsudon_1.jpg',
+        '초밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Sushi_platter.jpg/640px-Sushi_platter.jpg',
+        '돈까스': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tonkatsu.jpg/640px-Tonkatsu.jpg',
+        '우동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Kake_udon.jpg/640px-Kake_udon.jpg',
+        '일본 라멘': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Shoyu_Ramen.jpg/640px-Shoyu_Ramen.jpg',
+        '메밀국수': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Zaru_soba.jpg/640px-Zaru_soba.jpg',
+        '회 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Sashimi.jpg/640px-Sashimi.jpg',
+        '타코야끼': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Takoyaki.jpg/640px-Takoyaki.jpg',
+        '규동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gyudon_by_kewing.jpg/640px-Gyudon_by_kewing.jpg',
+        '덴푸라': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tempura_1.jpg/640px-Tempura_1.jpg',
+        '가츠동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Katsudon_1.jpg/640px-Katsudon_1.jpg',
 
         // 🍕 양식
-        '피자': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg',
-        '파스타': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg/800px-Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg',
-        '햄버거': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Hamburger_%28black_bg%29.jpg/800px-Hamburger_%28black_bg%29.jpg',
-        '스테이크': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Steak_01.jpg/800px-Steak_01.jpg',
-        '샌드위치': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Sandwich.jpg/800px-Sandwich.jpg',
-        '샐러드': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Salad_platter.jpg/800px-Salad_platter.jpg',
-        '리조또': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Risotto_alla_milanese.jpg/800px-Risotto_alla_milanese.jpg',
-        '타코': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg/800px-001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg',
-        '오므라이스': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Omurice.jpg/800px-Omurice.jpg',
+        '피자': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/640px-Eq_it-na_pizza-margherita_sep2005_sml.jpg',
+        '파스타': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg/640px-Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg',
+        '햄버거': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Hamburger_%28black_bg%29.jpg/640px-Hamburger_%28black_bg%29.jpg',
+        '스테이크': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Steak_01.jpg/640px-Steak_01.jpg',
+        '샌드위치': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Sandwich.jpg/640px-Sandwich.jpg',
+        '샐러드': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Salad_platter.jpg/640px-Salad_platter.jpg',
+        '리조또': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Risotto_alla_milanese.jpg/640px-Risotto_alla_milanese.jpg',
+        '타코': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg/640px-001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg',
+        '오므라이스': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Omurice.jpg/640px-Omurice.jpg',
 
         // 🍗 야식
-        '치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800',
-        '족발': 'https://cdn.pixabay.com/photo/2016/11/24/16/22/pork-feet-1856641_1280.jpg',
-        '곱창': 'https://cdn.pixabay.com/photo/2021/04/16/06/00/gopchang-6182329_1280.jpg',
-        '마라샹궈': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mala_Xiang_Guo.jpg/800px-Mala_Xiang_Guo.jpg',
-        '찜닭': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Andong-jjimdak.jpg/800px-Andong-jjimdak.jpg',
-        '아구찜': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Agujjim.jpg/800px-Agujjim.jpg',
-        '닭발 (음식)': 'https://t1.daumcdn.net/cfile/tistory/2416EB4D58ABAF0E1B'
+        '치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=75', // w=600으로 경량화
+        '족발': 'https://cdn.pixabay.com/photo/2016/11/24/16/22/pork-feet-1856641_640.jpg', // _1280 -> _640
+        '곱창': 'https://cdn.pixabay.com/photo/2021/04/16/06/00/gopchang-6182329_640.jpg', // _1280 -> _640
+        '마라샹궈': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mala_Xiang_Guo.jpg/640px-Mala_Xiang_Guo.jpg',
+        '찜닭': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Andong-jjimdak.jpg/640px-Andong-jjimdak.jpg',
+        '아구찜': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Agujjim.jpg/640px-Agujjim.jpg',
+        '닭발 (음식)': 'https://t1.daumcdn.net/cfile/tistory/2416EB4D58ABAF0E1B' // Daum 이미지는 이미 적절함
       };
-
-      // 1순위: 하드코딩된 정확한 이미지 반환
-      const cleanKeyword = keyword.trim();
-      if (overrides[cleanKeyword]) {
-        return overrides[cleanKeyword];
-      }
-
-      // 2순위: 혹시라도 빠진 게 있다면 위키백과 API 시도 (보조 수단)
-      const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(cleanKeyword)}&pithumbsize=800&origin=*&redirects=1`;
       
       try {
         const response = await fetch(url);
