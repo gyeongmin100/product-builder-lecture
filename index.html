@@ -630,14 +630,27 @@
     async function getWikiImage(keyword) {
       // 1. 위키백과에 사진이 없거나 엉뚱한 게 나오는 메뉴만 '수동'으로 지정 (Unsplash 고정 URL)
       const overrides = {
+        // [고기류/인기 메뉴] - API 실패 방지용 고정
+        '삼겹살': 'https://cdn.pixabay.com/photo/2016/11/18/14/39/beans-1834984_640.jpg', // 고기 굽는 사진
+        '불고기': 'https://cdn.pixabay.com/photo/2016/03/05/19/08/abstract-1238247_640.jpg', // 고기 요리
+        '갈비탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Galbi-tang-01.jpg/640px-Galbi-tang-01.jpg',
+        '보쌈': 'https://cdn.pixabay.com/photo/2020/11/13/16/04/bossam-5739097_640.jpg',
+        '족발': 'https://images.unsplash.com/photo-1548025988-c7a9e99eb586?auto=format&fit=crop&w=600&q=80',
+        
+        // [치킨/튀김류]
         '치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
         '양념치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
         '프라이드 치킨': 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80',
-        '족발': 'https://images.unsplash.com/photo-1548025988-c7a9e99eb586?auto=format&fit=crop&w=600&q=80',
+        '튀김 (음식)': 'https://images.unsplash.com/photo-1630402772559-074472d0263f?auto=format&fit=crop&w=600&q=80',
+        '덴푸라': 'https://images.unsplash.com/photo-1615486767794-4b713c023d91?auto=format&fit=crop&w=600&q=80',
+
+        // [기타]
         '닭발 (음식)': 'https://images.unsplash.com/photo-1594037837076-29a4a7bc7261?auto=format&fit=crop&w=600&q=80',
         '곱창': 'https://images.unsplash.com/photo-1560787313-5dff3307e257?auto=format&fit=crop&w=600&q=80',
         '순대 (음식)': 'https://images.unsplash.com/photo-1552526881-721ce8509ea8?auto=format&fit=crop&w=600&q=80',
-        '부대찌개': 'https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=600&q=80'
+        '부대찌개': 'https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=600&q=80',
+        '잡채': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Japchae_3.jpg/640px-Japchae_3.jpg',
+        '육회': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Yukhoe.jpg/640px-Yukhoe.jpg'
       };
 
       if (overrides[keyword]) {
