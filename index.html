@@ -521,6 +521,7 @@
     const btnTheme = document.getElementById('btnTheme');
 
     // 메뉴 데이터 (이미지 URL 제거 -> 실시간 검색으로 대체)
+    // 위키백과 표제어와 일치하도록 검색어(ko) 최적화
     const menus = [
       { ko: '김치찌개', en: 'Kimchi Stew', type: '한식' },
       { ko: '된장찌개', en: 'Soybean Paste Stew', type: '한식' },
@@ -544,8 +545,8 @@
       { ko: '떡볶이', en: 'Tteokbokki', type: '분식' },
       { ko: '김밥', en: 'Gimbap', type: '분식' },
       { ko: '라면', en: 'Ramyeon', type: '분식' },
-      { ko: '순대', en: 'Sundae', type: '분식' },
-      { ko: '튀김', en: 'Fried Food', type: '분식' },
+      { ko: '순대 (음식)', en: 'Sundae', type: '분식' }, // (음식) 추가
+      { ko: '튀김 (음식)', en: 'Fried Food', type: '분식' }, // (음식) 추가
       { ko: '어묵', en: 'Fish Cake', type: '분식' },
       { ko: '만두', en: 'Dumplings', type: '분식' },
       { ko: '라볶이', en: 'Rabokki', type: '분식' },
@@ -563,12 +564,12 @@
       { ko: '초밥', en: 'Sushi', type: '일식' },
       { ko: '돈까스', en: 'Tonkatsu', type: '일식' },
       { ko: '우동', en: 'Udon', type: '일식' },
-      { ko: '일본라멘', en: 'Ramen', type: '일식' },
-      { ko: '소바', en: 'Soba', type: '일식' },
-      { ko: '회', en: 'Sashimi', type: '일식' },
-      { ko: '타코야끼', en: 'Takoyaki', type: '일식' },
+      { ko: '일본 라멘', en: 'Ramen', type: '일식' }, // '일본 라멘'으로 구체화
+      { ko: '메밀국수', en: 'Soba', type: '일식' }, // '소바' -> '메밀국수'로 변경
+      { ko: '회 (음식)', en: 'Sashimi', type: '일식' }, // '회' -> '회 (음식)'
+      { ko: '타코야키', en: 'Takoyaki', type: '일식' },
       { ko: '규동', en: 'Gyudon', type: '일식' },
-      { ko: '튀김', en: 'Tempura', type: '일식' },
+      { ko: '덴푸라', en: 'Tempura', type: '일식' }, // '튀김' -> '덴푸라' (일식 튀김)
       { ko: '가츠동', en: 'Katsudon', type: '일식' },
 
       { ko: '피자', en: 'Pizza', type: '양식' },
@@ -587,7 +588,7 @@
       { ko: '마라샹궈', en: 'Mala Xiang Guo', type: '야식' },
       { ko: '찜닭', en: 'Jjimdak', type: '야식' },
       { ko: '아구찜', en: 'Spicy Braised Monkfish', type: '야식' },
-      { ko: '닭발', en: 'Chicken Feet', type: '야식' }
+      { ko: '닭발 (음식)', en: 'Chicken Feet', type: '야식' } // (음식) 추가
     ];
 
     // 테마 설정
