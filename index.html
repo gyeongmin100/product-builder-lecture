@@ -605,9 +605,9 @@
       'default': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
     };
 
-    // 메뉴 데이터 (정확도 높은 실사 이미지 URL 엄선)
+    // 메뉴 데이터 (영어 파일명 및 고정 ID 사용으로 로딩 오류 원천 차단)
     const menus = [
-      // 한식
+      // 🍚 한식
       { ko: '김치찌개', en: 'Kimchi Stew', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Kimchi_jjigae_1.jpg/800px-Kimchi_jjigae_1.jpg' },
       { ko: '된장찌개', en: 'Soybean Paste Stew', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Doenjang_jjigae.jpg/800px-Doenjang_jjigae.jpg' },
       { ko: '비빔밥', en: 'Bibimbap', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dolsot-bibimbap.jpg/800px-Dolsot-bibimbap.jpg' },
@@ -621,53 +621,61 @@
       { ko: '잡채', en: 'Japchae', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Japchae_3.jpg/800px-Japchae_3.jpg' },
       { ko: '파전', en: 'Scallion Pancake', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Haemul-pajeon.jpg/800px-Haemul-pajeon.jpg' },
       { ko: '육회', en: 'Beef Tartare', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Yukhoe.jpg/800px-Yukhoe.jpg' },
+      { ko: '제육볶음', en: 'Stir-fried Pork', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Jeyuk-bokkeum.jpg/800px-Jeyuk-bokkeum.jpg' },
+      { ko: '설렁탕', en: 'Ox Bone Soup', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Seolleongtang.jpg/800px-Seolleongtang.jpg' },
+      { ko: '부대찌개', en: 'Sausage Stew', type: '한식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budae-jjigae_3.jpg/800px-Budae-jjigae_3.jpg' },
 
-      // 분식
-      { ko: '떡볶이', en: 'Tteokbokki', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Tteokbokki.JPG/800px-Tteokbokki.JPG' },
+      // 🍢 분식
+      { ko: '떡볶이', en: 'Tteokbokki', type: '분식', imageUrl: 'https://images.unsplash.com/photo-1629858694038-0857367c34d1?auto=format&fit=crop&w=800' },
       { ko: '김밥', en: 'Gimbap', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Gimbap.jpg/800px-Gimbap.jpg' },
-      { ko: '라면', en: 'Korean Ramen', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ramyeon.jpg/800px-Ramyeon.jpg' },
-      { ko: '순대', en: 'Korean Sausage', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/800px-Sundae_%28sausage%29.jpg' },
-      { ko: '모듬튀김', en: 'Assorted Fried', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twigim.jpg/800px-Twigim.jpg' },
+      { ko: '라면', en: 'Ramyeon', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ramyeon.jpg/800px-Ramyeon.jpg' },
+      { ko: '순대', en: 'Sundae', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/800px-Sundae_%28sausage%29.jpg' },
+      { ko: '모듬튀김', en: 'Fried Food', type: '분식', imageUrl: 'https://images.unsplash.com/photo-1630402772559-074472d0263f?auto=format&fit=crop&w=800' },
       { ko: '오뎅', en: 'Fish Cake', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Oden_1.jpg/800px-Oden_1.jpg' },
+      { ko: '만두', en: 'Dumplings', type: '분식', imageUrl: 'https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?auto=format&fit=crop&w=800' },
+      { ko: '라볶이', en: 'Rabokki', type: '분식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Rabokki.jpg/800px-Rabokki.jpg' },
 
-      // 중식
+      // 🍜 중식
       { ko: '짜장면', en: 'Jajangmyeon', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Jajangmyeon_2.jpg/800px-Jajangmyeon_2.jpg' },
       { ko: '짬뽕', en: 'Jjamppong', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Jjamppong.jpg/800px-Jjamppong.jpg' },
       { ko: '탕수육', en: 'Sweet and Sour Pork', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Tangsuyuk.jpg/800px-Tangsuyuk.jpg' },
       { ko: '마라탕', en: 'Malatang', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Malatang.jpg/800px-Malatang.jpg' },
       { ko: '마파두부', en: 'Mapo Tofu', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Mapo_doufu_1.jpg/800px-Mapo_doufu_1.jpg' },
       { ko: '양장피', en: 'Yangjangpi', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Yangjangpi.jpg/800px-Yangjangpi.jpg' },
+      { ko: '볶음밥', en: 'Fried Rice', type: '중식', imageUrl: 'https://images.unsplash.com/photo-1603133872878-684f10d6d74b?auto=format&fit=crop&w=800' },
+      { ko: '깐풍기', en: 'Kkanpunggi', type: '중식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kkanpunggi_1.jpg/800px-Kkanpunggi_1.jpg' },
 
-      // 일식
-      { ko: '초밥', en: 'Sushi', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Sushi_platter.jpg/800px-Sushi_platter.jpg' },
-      { ko: '돈까스', en: 'Tonkatsu', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tonkatsu.jpg/800px-Tonkatsu.jpg' },
-      { ko: '우동', en: 'Udon', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Kake_udon.jpg/800px-Kake_udon.jpg' },
-      { ko: '일본라멘', en: 'Ramen', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Shoyu_Ramen.jpg/800px-Shoyu_Ramen.jpg' },
-      { ko: '소바', en: 'Soba', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Zaru_soba.jpg/800px-Zaru_soba.jpg' },
-      { ko: '회', en: 'Sashimi', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Sashimi.jpg/800px-Sashimi.jpg' },
-      { ko: '타코야끼', en: 'Takoyaki', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Takoyaki.jpg/800px-Takoyaki.jpg' },
-      { ko: '규동', en: 'Gyudon', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gyudon_by_kewing.jpg/800px-Gyudon_by_kewing.jpg' },
-      { ko: '튀김', en: 'Tempura', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tempura_1.jpg/800px-Tempura_1.jpg' },
+      // 🍣 일식
+      { ko: '초밥', en: 'Sushi', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800' },
+      { ko: '돈까스', en: 'Tonkatsu', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1606850780554-b55ea2ce98e5?auto=format&fit=crop&w=800' },
+      { ko: '우동', en: 'Udon', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1618841557871-b4664fbf0cb3?auto=format&fit=crop&w=800' },
+      { ko: '일본라멘', en: 'Ramen', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=800' },
+      { ko: '소바', en: 'Soba', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1519984388953-d2406bc725e9?auto=format&fit=crop&w=800' },
+      { ko: '회', en: 'Sashimi', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=800' },
+      { ko: '타코야끼', en: 'Takoyaki', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1616259654157-123491f2142e?auto=format&fit=crop&w=800' },
+      { ko: '규동', en: 'Gyudon', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=800' },
+      { ko: '튀김', en: 'Tempura', type: '일식', imageUrl: 'https://images.unsplash.com/photo-1615486767794-4b713c023d91?auto=format&fit=crop&w=800' },
+      { ko: '가츠동', en: 'Katsudon', type: '일식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Katsudon_1.jpg/800px-Katsudon_1.jpg' },
 
-      // 양식
-      { ko: '피자', en: 'Pizza', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg' },
-      { ko: '파스타', en: 'Pasta', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg/800px-Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg' },
-      { ko: '햄버거', en: 'Hamburger', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Hamburger_%28black_bg%29.jpg/800px-Hamburger_%28black_bg%29.jpg' },
-      { ko: '스테이크', en: 'Steak', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Steak_01.jpg/800px-Steak_01.jpg' },
-      { ko: '샌드위치', en: 'Sandwich', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Sandwich.jpg/800px-Sandwich.jpg' },
-      { ko: '샐러드', en: 'Salad', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Salad_platter.jpg/800px-Salad_platter.jpg' },
-      { ko: '리조또', en: 'Risotto', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Risotto_alla_milanese.jpg/800px-Risotto_alla_milanese.jpg' },
+      // 🍕 양식
+      { ko: '피자', en: 'Pizza', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800' },
+      { ko: '파스타', en: 'Pasta', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=800' },
+      { ko: '햄버거', en: 'Hamburger', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800' },
+      { ko: '스테이크', en: 'Steak', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=800' },
+      { ko: '샌드위치', en: 'Sandwich', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800' },
+      { ko: '샐러드', en: 'Salad', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800' },
+      { ko: '리조또', en: 'Risotto', type: '양식', imageUrl: 'https://images.unsplash.com/photo-1635431693345-037060377c8e?auto=format&fit=crop&w=800' },
       { ko: '타코', en: 'Tacos', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg/800px-001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg' },
-      { ko: '피쉬앤칩스', en: 'Fish and Chips', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Fish_and_chips_blackpool.jpg/800px-Fish_and_chips_blackpool.jpg' },
+      { ko: '오므라이스', en: 'Omurice', type: '양식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Omurice.jpg/800px-Omurice.jpg' },
 
-      // 야식
-      { ko: '치킨', en: 'Fried Chicken', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Fried_chicken_%281%29.jpg/800px-Fried_chicken_%281%29.jpg' },
+      // 🍗 야식
+      { ko: '치킨', en: 'Fried Chicken', type: '야식', imageUrl: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800' },
       { ko: '족발', en: 'Pig Trotters', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Jokbal_4.jpg/800px-Jokbal_4.jpg' },
       { ko: '곱창', en: 'Grilled Tripe', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Gopchang-gui.jpg/800px-Gopchang-gui.jpg' },
       { ko: '마라샹궈', en: 'Mala Xiang Guo', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mala_Xiang_Guo.jpg/800px-Mala_Xiang_Guo.jpg' },
       { ko: '찜닭', en: 'Jjimdak', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Andong-jjimdak.jpg/800px-Andong-jjimdak.jpg' },
       { ko: '아구찜', en: 'Spicy Braised Monkfish', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Agujjim.jpg/800px-Agujjim.jpg' },
-      { ko: '피맥', en: 'Pizza and Beer', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg' }
+      { ko: '닭발', en: 'Chicken Feet', type: '야식', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Dakbal.jpg/800px-Dakbal.jpg' }
     ];
 
     // --- Theme Logic ---
@@ -704,11 +712,10 @@
       const randomIndex = Math.floor(Math.random() * menus.length);
       const menu = menus[randomIndex];
       
-      // 이미지 URL
+      // 이미지 URL (고정된 고화질 URL 사용)
       const imageUrl = menu.imageUrl;
 
       // 대체 이미지 선택 함수
-      // onerror="this.src='...'" 대신, 카테고리에 맞는 이미지를 찾아 넣는 로직을 인라인으로 넣습니다.
       const fallbackUrl = fallbackImages[menu.type] || fallbackImages['default'];
 
       // 렌더링
