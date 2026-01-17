@@ -29,7 +29,7 @@
   <meta name="keywords" content="점심메뉴추천, 저녁메뉴추천, 오늘뭐먹지, 랜덤메뉴, 음식추천, AI메뉴추천, 결정장애, 식사메뉴, 혼밥메뉴, 야식추천">
   <link rel="canonical" href="https://product-builder-lecture-1eu.pages.dev/" />
 
-  <!-- SEO: Open Graph -->
+  <!-- SEO: Open Graph (Facebook, KakaoTalk) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://product-builder-lecture-1eu.pages.dev/">
   <meta property="og:title" content="🍚 오늘 뭐 먹지? | 3초 만에 메뉴 결정">
@@ -344,8 +344,8 @@
 
     .food-image-box {
       width: 100%;
-      height: 320px; /* 좀 더 시원하게 높이 확보 */
-      background: #ffffff; /* 흰색 배경으로 통일 */
+      height: 320px;
+      background: #ffffff;
       position: relative;
       display: flex;
       align-items: center;
@@ -359,16 +359,17 @@
       max-height: 100%;
       width: auto;
       height: auto;
-      object-fit: contain; /* 절대로 잘리지 않음 */
+      object-fit: contain;
       display: block;
       transition: opacity 0.3s;
-      padding: 10px; /* 약간의 여백으로 더 고급스럽게 */
+      padding: 10px;
     }
     
     .loading-spinner {
       position: absolute;
       font-size: 14px;
       color: var(--text-sub);
+      text-align: center;
     }
 
     .food-info {
@@ -524,8 +525,18 @@
     const announce = document.getElementById('announce');
     const btnTheme = document.getElementById('btnTheme');
 
+    // 카테고리별 대체 이미지 (이미지 로드 실패 시 보여줄 기본 이미지)
+    const fallbackImages = {
+      '한식': 'https://images.unsplash.com/photo-1580651315530-69c8e0026377?auto=format&fit=crop&w=800&q=80',
+      '중식': 'https://images.unsplash.com/photo-1563245372-f21720e3260d?auto=format&fit=crop&w=800&q=80',
+      '일식': 'https://images.unsplash.com/photo-1617196034421-280aa738b943?auto=format&fit=crop&w=800&q=80',
+      '양식': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80',
+      '분식': 'https://images.unsplash.com/photo-1596450531555-c54d7e638dfc?auto=format&fit=crop&w=800&q=80',
+      '야식': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80',
+      'default': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+    };
+
     // 메뉴 데이터 (이미지 URL 제거 -> 실시간 검색으로 대체)
-    // 위키백과 표제어와 일치하도록 검색어(ko) 최적화
     const menus = [
       { ko: '김치찌개', en: 'Kimchi Stew', type: '한식' },
       { ko: '된장찌개', en: 'Soybean Paste Stew', type: '한식' },
@@ -549,8 +560,8 @@
       { ko: '떡볶이', en: 'Tteokbokki', type: '분식' },
       { ko: '김밥', en: 'Gimbap', type: '분식' },
       { ko: '라면', en: 'Ramyeon', type: '분식' },
-      { ko: '순대 (음식)', en: 'Sundae', type: '분식' }, // (음식) 추가
-      { ko: '튀김 (음식)', en: 'Fried Food', type: '분식' }, // (음식) 추가
+      { ko: '순대 (음식)', en: 'Sundae', type: '분식' },
+      { ko: '튀김 (음식)', en: 'Fried Food', type: '분식' },
       { ko: '어묵', en: 'Fish Cake', type: '분식' },
       { ko: '만두', en: 'Dumplings', type: '분식' },
       { ko: '라볶이', en: 'Rabokki', type: '분식' },
@@ -568,12 +579,12 @@
       { ko: '초밥', en: 'Sushi', type: '일식' },
       { ko: '돈까스', en: 'Tonkatsu', type: '일식' },
       { ko: '우동', en: 'Udon', type: '일식' },
-      { ko: '일본 라멘', en: 'Ramen', type: '일식' }, // '일본 라멘'으로 구체화
-      { ko: '메밀국수', en: 'Soba', type: '일식' }, // '소바' -> '메밀국수'로 변경
-      { ko: '회 (음식)', en: 'Sashimi', type: '일식' }, // '회' -> '회 (음식)'
-      { ko: '타코야키', en: 'Takoyaki', type: '일식' },
+      { ko: '일본 라멘', en: 'Ramen', type: '일식' },
+      { ko: '메밀국수', en: 'Soba', type: '일식' },
+      { ko: '회 (음식)', en: 'Sashimi', type: '일식' },
+      { ko: '타코야끼', en: 'Takoyaki', type: '일식' },
       { ko: '규동', en: 'Gyudon', type: '일식' },
-      { ko: '덴푸라', en: 'Tempura', type: '일식' }, // '튀김' -> '덴푸라' (일식 튀김)
+      { ko: '덴푸라', en: 'Tempura', type: '일식' },
       { ko: '가츠동', en: 'Katsudon', type: '일식' },
 
       { ko: '피자', en: 'Pizza', type: '양식' },
@@ -586,18 +597,15 @@
       { ko: '타코', en: 'Tacos', type: '양식' },
       { ko: '오므라이스', en: 'Omurice', type: '양식' },
 
-      { ko: '치킨', en: 'Fried Chicken', type: '야식' }, // '치킨'은 보통 '치킨 (음식)' 등으로 리다이렉트됨. 구체적으로 '양념치킨' 등 사용 고려
-      { ko: '양념치킨', en: 'Yangnyeom Chicken', type: '야식' }, // 치킨 대신 더 확실한 양념치킨 추가
-      { ko: '프라이드 치킨', en: 'Fried Chicken', type: '야식' }, // 치킨 대신 구체적 명칭
+      { ko: '치킨', en: 'Fried Chicken', type: '야식' },
       { ko: '족발', en: 'Pig Trotters', type: '야식' },
-      { ko: '곱창 구이', en: 'Grilled Tripe', type: '야식' }, // '곱창' -> '곱창 구이'
-      { ko: '마라탕', en: 'Mala Xiang Guo', type: '야식' },
-      { ko: '안동찜닭', en: 'Jjimdak', type: '야식' }, // '찜닭' -> '안동찜닭' (문서명 확인 필요)
+      { ko: '곱창', en: 'Grilled Tripe', type: '야식' },
+      { ko: '마라샹궈', en: 'Mala Xiang Guo', type: '야식' },
+      { ko: '찜닭', en: 'Jjimdak', type: '야식' },
       { ko: '아구찜', en: 'Spicy Braised Monkfish', type: '야식' },
-      { ko: '닭발 (음식)', en: 'Chicken Feet', type: '야식' } // (음식) 추가
+      { ko: '닭발 (음식)', en: 'Chicken Feet', type: '야식' }
     ];
 
-    // 테마 설정
     function initTheme() {
       const saved = localStorage.getItem('theme');
       if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
@@ -618,111 +626,58 @@
       if (sectionContact) sectionContact.classList.toggle('active', which === 'main');
     }
 
-    // ★ 핵심: 이미지 매핑 (구글/위키/Unsplash 검증된 URL 100% 하드코딩 + 경량화)
+    // ★ 핵심: 위키백과 API + 안전한 예외 처리
     async function getWikiImage(keyword) {
+      // 1. 위키백과에 사진이 없거나 엉뚱한 게 나오는 메뉴만 '수동'으로 지정 (Unsplash 고정 URL)
       const overrides = {
-        // 🍚 한식
-        '김치찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Kimchi_jjigae_1.jpg/640px-Kimchi_jjigae_1.jpg',
-        '된장찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Doenjang_jjigae.jpg/640px-Doenjang_jjigae.jpg',
-        '비빔밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dolsot-bibimbap.jpg/640px-Dolsot-bibimbap.jpg',
-        '불고기': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Bulgogi_2.jpg/640px-Bulgogi_2.jpg',
-        '삼겹살': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Samgyeopsal-gui.jpg/640px-Samgyeopsal-gui.jpg',
-        '갈비탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Galbi-tang-01.jpg/640px-Galbi-tang-01.jpg',
-        '냉면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mulnaengmyeon.jpg/640px-Mulnaengmyeon.jpg',
-        '삼계탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Samgyetang_1.jpg/640px-Samgyetang_1.jpg',
-        '보쌈': 'https://cdn.pixabay.com/photo/2020/11/13/16/04/bossam-5739097_640.jpg', // 1280 -> 640
-        '닭갈비': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Dakgalbi.jpg/640px-Dakgalbi.jpg',
-        '잡채': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Japchae_3.jpg/640px-Japchae_3.jpg',
-        '파전': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Haemul-pajeon.jpg/640px-Haemul-pajeon.jpg',
-        '육회': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Yukhoe.jpg/640px-Yukhoe.jpg',
-        '제육볶음': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Jeyuk-bokkeum.jpg/640px-Jeyuk-bokkeum.jpg',
-        '설렁탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Seolleongtang.jpg/640px-Seolleongtang.jpg',
-        '부대찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budae-jjigae_3.jpg/640px-Budae-jjigae_3.jpg',
-        '순두부찌개': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sundubu-jjigae.jpg/640px-Sundubu-jjigae.jpg',
-        '감자탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Gamjatang.jpg/640px-Gamjatang.jpg',
-
-        // 🍢 분식
-        '떡볶이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Tteokbokki.JPG/640px-Tteokbokki.JPG',
-        '김밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Gimbap.jpg/640px-Gimbap.jpg',
-        '라면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ramyeon.jpg/640px-Ramyeon.jpg',
-        '순대 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/640px-Sundae_%28sausage%29.jpg',
-        '튀김 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twigim.jpg/640px-Twigim.jpg',
-        '어묵': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Oden_1.jpg/640px-Oden_1.jpg',
-        '만두': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Gun-mandu.jpg/640px-Gun-mandu.jpg',
-        '라볶이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Rabokki.jpg/640px-Rabokki.jpg',
-
-        // 🍜 중식
-        '짜장면': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Jajangmyeon_2.jpg/640px-Jajangmyeon_2.jpg',
-        '짬뽕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Jjamppong.jpg/640px-Jjamppong.jpg',
-        '탕수육': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Tangsuyuk.jpg/640px-Tangsuyuk.jpg',
-        '마라탕': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Malatang.jpg/640px-Malatang.jpg',
-        '마파두부': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Mapo_doufu_1.jpg/640px-Mapo_doufu_1.jpg',
-        '양장피': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Yangjangpi.jpg/640px-Yangjangpi.jpg',
-        '볶음밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Bokkeumbap_2.jpg/640px-Bokkeumbap_2.jpg',
-        '깐풍기': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kkanpunggi_1.jpg/640px-Kkanpunggi_1.jpg',
-        '유산슬': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Yusanseul.jpg/640px-Yusanseul.jpg',
-
-        // 🍣 일식
-        '초밥': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Sushi_platter.jpg/640px-Sushi_platter.jpg',
-        '돈까스': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tonkatsu.jpg/640px-Tonkatsu.jpg',
-        '우동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Kake_udon.jpg/640px-Kake_udon.jpg',
-        '일본 라멘': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Shoyu_Ramen.jpg/640px-Shoyu_Ramen.jpg',
-        '메밀국수': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Zaru_soba.jpg/640px-Zaru_soba.jpg',
-        '회 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Sashimi.jpg/640px-Sashimi.jpg',
-        '타코야끼': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Takoyaki.jpg/640px-Takoyaki.jpg',
-        '규동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gyudon_by_kewing.jpg/640px-Gyudon_by_kewing.jpg',
-        '덴푸라': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Tempura_1.jpg/640px-Tempura_1.jpg',
-        '가츠동': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Katsudon_1.jpg/640px-Katsudon_1.jpg',
-
-        // 🍕 양식
-        '피자': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/640px-Eq_it-na_pizza-margherita_sep2005_sml.jpg',
-        '파스타': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg/640px-Spaghetti_aglio%2C_olio_e_peperoncino_%2816284859030%29.jpg',
-        '햄버거': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Hamburger_%28black_bg%29.jpg/640px-Hamburger_%28black_bg%29.jpg',
-        '스테이크': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Steak_01.jpg/640px-Steak_01.jpg',
-        '샌드위치': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Sandwich.jpg/640px-Sandwich.jpg',
-        '샐러드': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Salad_platter.jpg/640px-Salad_platter.jpg',
-        '리조또': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Risotto_alla_milanese.jpg/640px-Risotto_alla_milanese.jpg',
-        '타코': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg/640px-001_Tacos_de_Carnitas%2C_Carne_Asada_y_Al_Pastor.jpg',
-        '오므라이스': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Omurice.jpg/640px-Omurice.jpg',
-
-        // 🍗 야식
-        '치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=75', // w=600으로 경량화
-        '족발': 'https://cdn.pixabay.com/photo/2016/11/24/16/22/pork-feet-1856641_640.jpg', // _1280 -> _640
-        '곱창': 'https://cdn.pixabay.com/photo/2021/04/16/06/00/gopchang-6182329_640.jpg', // _1280 -> _640
-        '마라샹궈': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Mala_Xiang_Guo.jpg/640px-Mala_Xiang_Guo.jpg',
-        '찜닭': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Andong-jjimdak.jpg/640px-Andong-jjimdak.jpg',
-        '아구찜': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Agujjim.jpg/640px-Agujjim.jpg',
-        '닭발 (음식)': 'https://t1.daumcdn.net/cfile/tistory/2416EB4D58ABAF0E1B' // Daum 이미지는 이미 적절함
+        '치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+        '양념치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+        '프라이드 치킨': 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80',
+        '족발': 'https://images.unsplash.com/photo-1548025988-c7a9e99eb586?auto=format&fit=crop&w=600&q=80',
+        '닭발 (음식)': 'https://images.unsplash.com/photo-1594037837076-29a4a7bc7261?auto=format&fit=crop&w=600&q=80',
+        '곱창': 'https://images.unsplash.com/photo-1560787313-5dff3307e257?auto=format&fit=crop&w=600&q=80',
+        '순대 (음식)': 'https://images.unsplash.com/photo-1552526881-721ce8509ea8?auto=format&fit=crop&w=600&q=80',
+        '부대찌개': 'https://images.unsplash.com/photo-1553163147-622ab57be1c7?auto=format&fit=crop&w=600&q=80'
       };
+
+      if (overrides[keyword]) {
+        return overrides[keyword];
+      }
+
+      // 2. 나머지는 위키백과 실시간 검색 (API)
+      // redirects=1 : 리다이렉트 추적
+      // pithumbsize=600 : 적당한 크기의 썸네일 요청
+      const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(keyword)}&pithumbsize=600&origin=*&redirects=1`;
       
       try {
         const response = await fetch(url);
         const data = await response.json();
         const pages = data.query.pages;
-        // pages 객체의 첫 번째 키(pageId)를 가져옴
         const pageId = Object.keys(pages)[0];
         
-        if (pageId === '-1') return null; // 페이지 없음
+        if (pageId === '-1') return null;
         
         if (pages[pageId].thumbnail) {
-          return pages[pageId].thumbnail.source; // 이미지 URL 반환
+          return pages[pageId].thumbnail.source;
         }
       } catch (e) {
         console.error("Wiki API Error:", e);
       }
-      return null; // 실패 시 null
+      return null;
     }
 
     async function generateMenu() {
-      // 1. 랜덤 메뉴 선택
       const randomIndex = Math.floor(Math.random() * menus.length);
       const menu = menus[randomIndex];
 
-      // 2. 화면 먼저 전환 및 로딩 표시
+      // 로딩 UI 표시
       showScreen('result');
       resultContent.innerHTML = `
         <div class="food-image-box">
-           <span class="loading-spinner">🍳 ${menu.ko} 사진을 찾아오는 중...</span>
+           <div class="loading-spinner">
+             <div style="font-size:40px; margin-bottom:10px;">🍳</div>
+             <div>${menu.ko}<br>사진을 가져오는 중...</div>
+           </div>
         </div>
         <div class="food-info">
           <div class="food-category">${menu.type}</div>
@@ -730,28 +685,30 @@
           <p style="margin: 0; opacity: 0.8; font-size: 14px;">"${menu.en}"</p>
         </div>
       `;
-      announce.textContent = `${menu.ko} 메뉴가 선택되었습니다. 이미지를 불러옵니다.`;
+      announce.textContent = `${menu.ko} 메뉴가 선택되었습니다.`;
 
-      // 3. 위키백과 이미지 비동기 요청
       const imageUrl = await getWikiImage(menu.ko);
       
-      // 4. 이미지 로드 완료 후 교체
-      // 이미지가 없으면 기본 대체 이미지(카테고리별) 사용
+      // 이미지가 없으면 카테고리별 대체 이미지 사용
       const fallbackUrl = fallbackImages[menu.type] || fallbackImages['default'];
       const finalUrl = imageUrl || fallbackUrl;
 
-      const imgHtml = `
-        <img src="${finalUrl}" 
-             alt="${menu.ko}" 
-             class="food-image" 
-             style="animation: fadeIn 0.5s;"
-             onerror="this.src='${fallbackUrl}'"
-        />
-      `;
-      
-      // 이미지 박스 내용 교체
-      const imgBox = document.querySelector('.food-image-box');
-      if (imgBox) imgBox.innerHTML = imgHtml;
+      // 이미지 로드 후 교체 (깜빡임 방지)
+      const img = new Image();
+      img.src = finalUrl;
+      img.onload = () => {
+        const imgBox = document.querySelector('.food-image-box');
+        if (imgBox) {
+          imgBox.innerHTML = `
+            <img src="${finalUrl}" 
+                 alt="${menu.ko}" 
+                 class="food-image" 
+                 style="animation: fadeIn 0.3s;"
+                 onerror="this.src='${fallbackUrl}'"
+            />
+          `;
+        }
+      };
     }
 
     btnGo.addEventListener('click', generateMenu);
