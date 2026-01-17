@@ -344,8 +344,8 @@
 
     .food-image-box {
       width: 100%;
-      height: 300px; /* 고정 높이로 변경하여 안정감 확보 */
-      background: #f8f9fa; /* 밝은 회색 배경 */
+      height: 320px; /* 좀 더 시원하게 높이 확보 */
+      background: #ffffff; /* 흰색 배경으로 통일 */
       position: relative;
       display: flex;
       align-items: center;
@@ -355,11 +355,14 @@
     }
     
     .food-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* 이미지 전체가 보이도록 설정 */
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain; /* 절대로 잘리지 않음 */
       display: block;
       transition: opacity 0.3s;
+      padding: 10px; /* 약간의 여백으로 더 고급스럽게 */
     }
     
     .loading-spinner {
@@ -617,29 +620,31 @@
 
     // ★ 핵심: 위키백과 API에서 이미지 가져오기
     async function getWikiImage(keyword) {
-      // 1. 하드코딩된 예외 처리 (API가 잘 못 찾는 메뉴들을 위한 수동 매핑)
-      // 족발, 곱창 등 이미지가 잘 안 나오는 메뉴는 여기서 직접 URL을 지정합니다.
+      // 1. 하드코딩된 예외 처리 (API가 못 찾는 메뉴들을 위한 확실한 실사 URL)
       const overrides = {
-        '족발': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Jokbal_4.jpg/800px-Jokbal_4.jpg',
-        '곱창': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Gopchang-gui.jpg/800px-Gopchang-gui.jpg',
-        '곱창 구이': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Gopchang-gui.jpg/800px-Gopchang-gui.jpg',
+        '족발': 'https://cdn.pixabay.com/photo/2016/11/24/16/22/pork-feet-1856641_1280.jpg',
+        '보쌈': 'https://cdn.pixabay.com/photo/2020/11/13/16/04/bossam-5739097_1280.jpg',
+        '곱창': 'https://cdn.pixabay.com/photo/2021/04/16/06/00/gopchang-6182329_1280.jpg',
+        '곱창 구이': 'https://cdn.pixabay.com/photo/2021/04/16/06/00/gopchang-6182329_1280.jpg',
         '순대 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sundae_%28sausage%29.jpg/800px-Sundae_%28sausage%29.jpg',
-        '튀김 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twigim.jpg/800px-Twigim.jpg',
-        '치킨': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Fried_chicken_%281%29.jpg/800px-Fried_chicken_%281%29.jpg',
-        '양념치킨': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Fried_chicken_%281%29.jpg/800px-Fried_chicken_%281%29.jpg', // 양념치킨 사진이 없으면 후라이드라도 나오게
-        '닭발 (음식)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Dakbal.jpg/800px-Dakbal.jpg'
+        '튀김 (음식)': 'https://images.unsplash.com/photo-1630402772559-074472d0263f?auto=format&fit=crop&w=800',
+        '덴푸라': 'https://images.unsplash.com/photo-1615486767794-4b713c023d91?auto=format&fit=crop&w=800',
+        '치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800',
+        '양념치킨': 'https://cdn.pixabay.com/photo/2019/11/04/00/49/stir-fried-chicken-4599872_1280.jpg',
+        '프라이드 치킨': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800',
+        '닭발 (음식)': 'https://t1.daumcdn.net/cfile/tistory/2416EB4D58ABAF0E1B',
+        '회 (음식)': 'https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=800',
+        '메밀국수': 'https://images.unsplash.com/photo-1519984388953-d2406bc725e9?auto=format&fit=crop&w=800'
       };
 
-      if (overrides[keyword]) {
-        console.log(`Using override image for: ${keyword}`);
-        return overrides[keyword];
+      // 정확한 매칭을 위해 트림(trim) 처리
+      const cleanKeyword = keyword.trim();
+      if (overrides[cleanKeyword]) {
+        return overrides[cleanKeyword];
       }
 
-      // 2. 한국어 위키백과 API 호출 (기존 로직)
-      // origin=* : CORS 해결
-      // pithumbsize=600 : 600px 썸네일 요청
-      // redirects=1 : 리다이렉트 자동 추적
-      const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(keyword)}&pithumbsize=600&origin=*&redirects=1`;
+      // 2. 한국어 위키백과 API 호출
+      const url = `https://ko.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(cleanKeyword)}&pithumbsize=800&origin=*&redirects=1`;
       
       try {
         const response = await fetch(url);
@@ -682,8 +687,8 @@
       const imageUrl = await getWikiImage(menu.ko);
       
       // 4. 이미지 로드 완료 후 교체
-      // 이미지가 없으면 기본 대체 이미지(카테고리별) 사용
-      const fallbackUrl = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800'; // 공통 fallback
+      // 이미지가 없으면 기본 대체 이미지(맛있는 비빔밥) 사용
+      const fallbackUrl = 'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=800'; 
       const finalUrl = imageUrl || fallbackUrl;
 
       const imgHtml = `
