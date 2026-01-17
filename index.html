@@ -46,18 +46,50 @@
 
   <!-- SEO: Structured Data (JSON-LD) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "오늘 뭐 먹지?",
-    "url": "https://product-builder-lecture-1eu.pages.dev/",
-    "description": "AI 기반 점심 및 저녁 메뉴 랜덤 추천 서비스",
-    "keywords": "점심메뉴, 저녁메뉴, 랜덤추천, 음식월드컵",
-    "author": {
-      "@type": "Person",
-      "name": "Jocoding Student"
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "오늘 뭐 먹지?",
+      "url": "https://product-builder-lecture-1eu.pages.dev/",
+      "description": "AI 기반 점심 및 저녁 메뉴 랜덤 추천 서비스",
+      "keywords": "점심메뉴, 저녁메뉴, 랜덤추천, 음식월드컵",
+      "author": {
+        "@type": "Person",
+        "name": "Jocoding Student"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "오늘 점심 메뉴로 무엇을 먹을까요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "비 오는 날에는 따뜻한 국물 요리인 칼국수나 짬뽕을, 스트레스 받는 날에는 매운 떡볶이나 마라탕을 추천합니다. 가볍게 먹고 싶다면 샌드위치나 샐러드가 좋습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "메뉴 결정 장애를 해결하는 방법은?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "선택지를 한식, 중식, 일식, 양식 4가지로 좁히거나, '오늘 뭐 먹지?'와 같은 랜덤 메뉴 추천 서비스를 활용하면 빠르고 재미있게 메뉴를 정할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "저녁 메뉴 추천 리스트가 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "든든한 저녁으로는 삼겹살, 족발, 보쌈, 치킨 같은 고기류나 찜닭, 아구찜 같은 요리를 추천합니다. 하루의 피로를 풀기 좋은 메뉴들입니다."
+          }
+        }
+      ]
     }
-  }
+  ]
   </script>
 
   <meta name="google-adsense-account" content="ca-pub-3631483316077834">
@@ -471,6 +503,70 @@
           <strong style="display:block; margin-bottom: 6px; color: var(--text-color);">🍕 풍성한 양식/분식</strong>
           <p style="margin:0; color: var(--text-sub);">피자, 파스타, 햄버거, 떡볶이, 치킨 등 특별한 날이나 간편한 식사를 위한 추천입니다.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- SEO Content: 상황별 추천 가이드 (GEO 타겟팅) -->
+    <section style="padding: 30px 24px; background: var(--bg-4); border-top: 1px solid var(--border-color);">
+      <article style="max-width: 700px; margin: 0 auto; line-height: 1.7;">
+        <h3 style="font-size: 20px; margin-bottom: 20px; color: var(--text-color);">💡 상황별 메뉴 선정 꿀팁</h3>
+        
+        <div style="margin-bottom: 24px;">
+          <h4 style="font-size: 16px; margin-bottom: 8px;">🌧️ 비 오는 날에는?</h4>
+          <p style="font-size: 14px; color: var(--text-sub); margin: 0;">
+            비가 오는 날에는 습도가 높아지면서 <strong>전이나 튀김</strong> 냄새가 더 멀리 퍼져 식욕을 자극합니다. 
+            또한 기온이 떨어지기 때문에 몸을 녹여줄 <strong>따뜻한 국물 요리</strong>가 생각나죠. 
+            추천 메뉴로는 <em>해물파전, 칼국수, 짬뽕, 우동, 김치찌개</em> 등이 있습니다.
+          </p>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <h4 style="font-size: 16px; margin-bottom: 8px;">🤯 스트레스 받는 날에는?</h4>
+          <p style="font-size: 14px; color: var(--text-sub); margin: 0;">
+            매운 음식의 캡사이신 성분은 뇌에서 엔도르핀 생성을 촉진해 기분 전환에 도움을 줄 수 있습니다.
+            직장 상사에게 깨지거나 공부가 안 될 때는 <em>매운 떡볶이, 마라탕, 불닭, 낙지볶음</em> 등으로 스트레스를 날려보세요.
+            단, 위장에 무리가 가지 않도록 적당히 드시는 것이 좋습니다.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-size: 16px; margin-bottom: 8px;">💪 기력이 달릴 때는?</h4>
+          <p style="font-size: 14px; color: var(--text-sub); margin: 0;">
+            체력이 떨어졌다고 느껴질 때는 고단백 보양식이 필요합니다. 
+            <em>삼계탕, 장어구이, 추어탕, 소고기 구이</em> 등 단백질이 풍부한 음식으로 에너지를 충전하세요.
+            특히 여름철 복날에는 삼계탕이 최고의 선택입니다.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- SEO Content: 자주 묻는 질문 (FAQ) -->
+    <section style="padding: 30px 24px; background: var(--card-bg); border-top: 1px solid var(--border-color);">
+      <div style="max-width: 700px; margin: 0 auto;">
+        <h3 style="font-size: 20px; margin-bottom: 20px; color: var(--text-color);">❓ 자주 묻는 질문 (FAQ)</h3>
+        
+        <details style="margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; color: var(--text-color);">Q. 어떤 기준으로 메뉴를 추천하나요?</summary>
+          <p style="margin: 10px 0 0; font-size: 14px; color: var(--text-sub);">
+            A. '오늘 뭐 먹지?' 서비스는 한국인이 선호하는 대중적인 음식 데이터베이스(한식, 중식, 일식, 양식, 야식 등)를 기반으로 
+            완전한 무작위(Random) 알고리즘을 사용하여 공정하게 메뉴를 제안합니다.
+          </p>
+        </details>
+
+        <details style="margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; color: var(--text-color);">Q. 메뉴 이미지는 어디서 가져오나요?</summary>
+          <p style="margin: 10px 0 0; font-size: 14px; color: var(--text-sub);">
+            A. 모든 음식 이미지는 위키미디어 공용(Wikimedia Commons)의 오픈 라이선스 이미지를 사용하여 저작권 문제없이 제공됩니다.
+          </p>
+        </details>
+
+        <details style="border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+          <summary style="font-weight: 600; cursor: pointer; color: var(--text-color);">Q. 점심 메뉴와 저녁 메뉴가 다른가요?</summary>
+          <p style="margin: 10px 0 0; font-size: 14px; color: var(--text-sub);">
+            A. 현재는 통합된 데이터베이스에서 추천해 드리지만, 통상적으로 점심에는 찌개나 면 요리 등 가벼운 식사를, 
+            저녁에는 삼겹살, 치킨, 족발 등 든든하거나 술을 곁들일 수 있는 메뉴를 선호하는 경향이 있습니다.
+          </p>
+        </details>
       </div>
     </section>
 
